@@ -1,0 +1,66 @@
+extends layout
+
+block content
+  h1= title
+  p Query string parameters: rows=#{query.rows}, cols=#{query.cols}
+
+  // Form to submit grid size
+  form(action="/grid" method="get")
+    label(for="rows") Number of Rows (3-13):
+    input(type="number" id="rows" name="rows" min="3" max="13" value=query.rows || 5)
+    
+    label(for="cols") Number of Columns (3-13):
+    input(type="number" id="cols" name="cols" min="3" max="13" value=query.cols || 6)
+    
+    button(type="submit") Update Grid
+
+  // Number conversion and validation
+  - let rows = Number(query.rows)
+  - let cols = Number(query.cols)
+
+  // Validation messages
+  if !Number.isInteger(rows) || !Number.isInteger(cols)
+    p.alert.alert-danger Rows and columns must be integers
+  else if rows < 3 || rows > 13
+    p.alert.alert-danger Rows must be between 3 and 13
+  else if cols < 3 || cols > 13
+    p.alert.alert-danger Columns must be between 3 and 13
+  else
+    // Grid display
+    table.table-bordered
+      - for(let i = 0; i < rows; i++)
+        tr
+          - for(let j = 0; j < cols; j++)
+            td= i-j
+
+  // Interactive buttons
+  .mt-3
+    button.btn.btn-primary(id="increaseRows") Increase Rows
+    button.btn.btn-primary(id="increaseCols") Increase Columns
+    button.btn.btn-secondary(id="resetGrid") Reset Grid
+
+  script.
+    // Button handlers with range validation
+    function adjustGrid(adjustRows, adjustCols) {
+      const rowsInput = document.getElementById('rows');
+      const colsInput = document.getElementById('cols');
+      
+      let rows = parseInt(rowsInput.value) || 5;
+      let cols = parseInt(colsInput.value) || 6;
+      
+     
+      rows = Math.min(13, Math.max(3, rows + (adjustRows || 0)));
+      cols = Math.min(13, Math.max(3, cols + (adjustCols || 0)));
+      
+      rowsInput.value = rows;
+      colsInput.value = cols;
+      document.forms[0].submit();
+    }
+
+    document.getElementById('increaseRows').addEventListener('click', () => adjustGrid(1, 0));
+    document.getElementById('increaseCols').addEventListener('click', () => adjustGrid(0, 1));
+    document.getElementById('resetGrid').addEventListener('click', () => {
+      document.getElementById('rows').value = 5;
+      document.getElementById('cols').value = 6;
+      document.forms[0].submit();
+    });
