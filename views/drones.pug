@@ -34,3 +34,7 @@ block content
       const drone = #{JSON.stringify(drones)};
       alert(`You purchased: ${drone[index].model}\nPrice: $${drone[index].price}`);
     }
+
+            a(href=`/drones/${drone._id}`) View
+            |  | 
+            a(href=`/resource/drones/${drone._id}`) API

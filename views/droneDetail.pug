@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  div.drone-details
+    p Model: #{drone.model}
+    p Brand: #{drone.brand}
+    p Range: #{drone.range_km} km
+    p Added: #{drone.created_at.toLocaleDateString()}
+  a(href='/drones') Back to All Drones
