@@ -9,22 +9,21 @@ const Drone = require('./models/drones');
 
 // MongoDB Connection Setup
 const connectionString = process.env.MONGO_CONNECTION_STRING;
-mongoose.connect(connectionString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose = require('mongoose');
+mongoose.connect(connectionString);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.on('connecting', () => console.log('Connecting to MongoDB...'));
-db.on('connected', () => console.log('MongoDB connected!'));
-db.once('open', async () => {
-  console.log('Connection to DB succeeded');
-  if (process.env.RESEED === 'true') {
-    await seedDatabase();
-  }
-});
+db.on('connected', () => console.log('MongoDB connected!'))
 
+//Get the default connection
+var db = mongoose.connection;
+
+//Bind connection to error event 
+
+db.once("open", function(){
+console.log("Connection to DB succeeded")});
 // Import routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -67,4 +66,6 @@ async function seedDatabase() {
   }
 }
 
+
 module.exports = app;
+var drones = require("./models/drones");
