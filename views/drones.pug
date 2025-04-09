@@ -1,41 +1,17 @@
 extends layout
 
 block content
-  h1 Buy Drones
+  h1= title
   - let items = results
-  table.table.table-bordered
-    thead
-      tr
-        th Image
-        th Model
-        th Range (km)
-        th Brand
-        th Price ($)
-        th Action
-    tbody
-      each drone , index in drones
-        tr
-          td
-            //- Image display based on model
-            if drone.model === 'DJI Phantom 4'
-              img.img-fluid(src='/images/DJI_Phantom_4.png' alt=drone.model width='150')
-            else if drone.model === 'Parrot Anafi'
-              img.img-fluid(src='/images/parrotANAFI.jpg' alt=drone.model width='150')
-            else if drone.model === 'Autel Evo II'
-              img.img-fluid(src='/images/Autel.png' alt=drone.model width='150')
-          td= drone.model
-          td= drone.range
-          td= drone.brand
-          td= drone.price
-          td
-            button.btn.btn-primary(onclick=`buy(${index})`) Buy
+  p Below are some drones search results:
+  
+  .container-fluid
+    .row
+      each drones in items
+        .col-sm-3.border.p-2
+          h3 Model: #{drones.model}
+          p Brand: #{drones.brand}
+          p Range: #{drones.range}
 
-  script.
-    function buy(index) {
-      const drone = #{JSON.stringify(drones)};
-      alert(`You purchased: ${drone[index].model}\nPrice: $${drone[index].price}`);
-    }
-
-            a(href=`/drones/${drone._id}`) View
-            |  | 
-            a(href=`/resource/drones/${drone._id}`) API
+  p
+    a(href="/") Back to Home

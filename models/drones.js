@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const droneSchema = mongoose.Schema({
-  name: String,
-  mileage_mpg: Number,
-  type: String
+  model: String,
+  brand: String,
+  Range: Number
 });
 
 module.exports = mongoose.model("Drones", droneSchema);
