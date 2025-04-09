@@ -24,7 +24,8 @@ var usersRouter = require('./routes/users');
 var dronesRouter = require('./routes/drones');
 var pickRouter = require('./routes/pick');
 var resourceRouter = require('./routes/resource');
-var drones = require("./models/drones");
+const drones = require("./models/drones");
+const constants = require('constants');
 
 const app = express();
 
@@ -67,38 +68,23 @@ async function seedDatabase() {
 async function recreateDB(){
  // Delete everything
  await drones.deleteMany();
- let instance1 = new 
-drones({model:"Phantom 4", brand: "DJI", 
-range:6000});
+ let instance1 = new drones({model:"Phantom 4", brand: "DJI", range:6000});
  instance1.save().then(doc=>{
- console.log("First object saved")}
-).catch(err=>{
-  console.error(err)
-  });
+ console.log("First object saved")}).catch(err=>{
+  console.error(err)});
 
- let instance2 = new 
-drones({model:"Anafi", brand: "Parrot", 
-range:4000});
+ let instance2 = new drones({model:"Anafi", brand: "Parrot", range:4000});
  instance2.save().then(doc=>{
- console.log("Second object saved")}
-).catch(err=>{
-  console.error(err)
-  });
+ console.log("Second object saved")}).catch(err=>{
+ console.error(err)});
 
- let instance3 = new 
-drones({model:"Evo II", brand:"Autel", 
-model:9000});
+ let instance3 = new drones({model:"Evo II", brand:"Autel", model:9000});
  instance3.save().then(doc=>{
- console.log("Third object saved")}
- ).catch(err=>{
- console.error(err)
- });
+ console.log("Third object saved")}).catch(err=>{
+ console.error(err)});
+
 }
 let reseed = true;
 if (reseed) recreateDB();
-
-
-
-
 
 module.exports = app;

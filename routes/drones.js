@@ -4,9 +4,9 @@ const router = express.Router();
 
 // Sample drone data (optional if not using a controller or database yet)
 const drones = [
-    { id: 1, model: 'DJI Phantom 4', range_km: 5, brand: 'DJI' },
-    { id: 2, model: 'Parrot Anafi', range_km: 4, brand: 'Parrot' },
-    { id: 3, model: 'Autel Evo II', range_km: 9, brand: 'Autel' }
+    { id: 1, model: 'DJI Phantom 4', range: 6000, brand: 'DJI' },
+    { id: 2, model: 'Parrot Anafi', range: 4000, brand: 'Parrot' },
+    { id: 3, model: 'Autel Evo II', range: 9000, brand: 'Autel' }
 ];
 
 // Route to display all drones with hardcoded data
@@ -18,3 +18,4 @@ router.get('/', function(req, res, next)  {
 
 
 module.exports = router;
+

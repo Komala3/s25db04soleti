@@ -1,7 +1,7 @@
 {
-  "name": "s25wb04soleti",
-  "version": "0.0.0",
-  "private": true,
+  "name": "s25db04soleti",
+  "version": "1.0.0",
+  "main": "app.js",
   "scripts": {
     "start": "node ./bin/www"
   },
@@ -9,7 +9,7 @@
     "cookie-parser": "~1.4.4",
     "debug": "^4.4.0",
     "dotenv": "^16.4.7",
-    "express": "^5.1.0",
+    "express": "^4.21.2",
     "http-errors": "^2.0.0",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
@@ -17,3 +17,5 @@
     "pug": "^3.0.3"
   }
 }
+
+
