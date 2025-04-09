@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const drones_controlers = require('../controllers/drones');
+
 
 // Sample drone data (optional if not using a controller or database yet)
 const drones = [
@@ -10,23 +10,11 @@ const drones = [
 ];
 
 // Route to display all drones with hardcoded data
-router.get('/', (req, res) => {
-    res.render('drones', { drones: drones });
+router.get('/', function(req, res, next)  {
+    res.render('drones', { title: 'Search results - drones' });
 });
 
 // Route to display details of a single drone based on ID using hardcoded data
-router.get('/:id', (req, res) => {
-    const droneId = parseInt(req.params.id);
-    const drone = drones.find(d => d.id === droneId);
 
-    if (drone) {
-        res.render('droneDetail', { drone: drone });
-    } else {
-        res.status(404).send('Drone not found');
-    }
-});
-
-// Route to display all drones (using the controller to fetch data from the DB)
-router.get('/db', drones_controlers.drones_view_all_Page); // Use controller for DB-driven data
 
 module.exports = router;

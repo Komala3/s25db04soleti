@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-var drones = require("./models/drones");
+
 
 // MongoDB Connection Setup
 const connectionString = process.env.MONGO_CON;
@@ -19,11 +19,12 @@ db.on('connected', () => console.log('MongoDB connected!'))
 db.once("open", function(){
 console.log("Connection to DB succeeded")});
 // Import routers
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const dronesRouter = require('./routes/drones');
-const pickRouter = require('./routes/pick');
-const resourceRouter = require('./routes/resource');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var dronesRouter = require('./routes/drones');
+var pickRouter = require('./routes/pick');
+var resourceRouter = require('./routes/resource');
+var drones = require("./models/drones");
 
 const app = express();
 
@@ -44,6 +45,8 @@ app.use('/users', usersRouter);
 app.use('/drones', dronesRouter);
 app.use('/pick', pickRouter);
 app.use('/resource', resourceRouter);
+app.get('/drones', require('./controllers/drones').drones_list);
+
 
 // Database seeding function
 async function seedDatabase() {
@@ -76,7 +79,7 @@ range:6000});
  let instance2 = new 
 drones({model:"Anafi", brand: "Parrot", 
 range:4000});
- instance1.save().then(doc=>{
+ instance2.save().then(doc=>{
  console.log("Second object saved")}
 ).catch(err=>{
   console.error(err)
@@ -85,7 +88,7 @@ range:4000});
  let instance3 = new 
 drones({model:"Evo II", brand:"Autel", 
 model:9000});
- instance1.save().then(doc=>{
+ instance3.save().then(doc=>{
  console.log("Third object saved")}
  ).catch(err=>{
  console.error(err)
@@ -95,11 +98,7 @@ let reseed = true;
 if (reseed) recreateDB();
 
 
+
+
+
 module.exports = app;
-
-const drones_controlers= require('../controllers/drones');
-var router = express.Router();
-/* GET costumes */
-router.get('/', drones_controlers.drones_view_all_Page );
-module.exports = router;
-
