@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
-const droneSchema = new mongoose.Schema({
+const dronesSchema = new mongoose.Schema({
   model: String,
   brand: String,
   range: Number
 });
 
-module.exports = mongoose.model('Drone', droneSchema);
+module.exports = mongoose.model("drones", dronesSchema);
+
+

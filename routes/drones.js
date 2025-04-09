@@ -1,54 +1,32 @@
-var express = require('express');
-var router = express.Router();
-const drone_controller = require('../controllers/drone');
+const express = require('express');
+const router = express.Router();
+const drones_controlers = require('../controllers/drones');
 
-// Sample data for drones (can be extended or replaced with a database query)
+// Sample drone data (optional if not using a controller or database yet)
 const drones = [
     { id: 1, model: 'DJI Phantom 4', range_km: 5, brand: 'DJI' },
     { id: 2, model: 'Parrot Anafi', range_km: 4, brand: 'Parrot' },
     { id: 3, model: 'Autel Evo II', range_km: 9, brand: 'Autel' }
 ];
 
-router.get('/', drone_controller.drone_view_all_Page);
-
-// Define the route to display all drones
-router.get('/', function(req, res, next) {
-    res.render('drones', { drones: drones }); // Pass drones data to Pug
+// Route to display all drones with hardcoded data
+router.get('/', (req, res) => {
+    res.render('drones', { drones: drones });
 });
 
-
-// Define the route to display details of a single drone based on its ID
-router.get('/:id', function(req, res, next) {
+// Route to display details of a single drone based on ID using hardcoded data
+router.get('/:id', (req, res) => {
     const droneId = parseInt(req.params.id);
     const drone = drones.find(d => d.id === droneId);
 
     if (drone) {
-        res.render('droneDetail', { drone: drone }); // Render a detailed view
+        res.render('droneDetail', { drone: drone });
     } else {
         res.status(404).send('Drone not found');
     }
 });
 
+// Route to display all drones (using the controller to fetch data from the DB)
+router.get('/db', drones_controlers.drones_view_all_Page); // Use controller for DB-driven data
+
 module.exports = router;
-
-const mongoose = require("mongoose");
-const costumeSchema = mongoose.Schema({
-  costume_type: String,
-  size: String,
-  cost: Number
-});
-module.exports = mongoose.model("Costume", costumeSchema);
-
-const Costume = require("./models/costume");
-
-async function recreateDB() {
-  await Costume.deleteMany();
-  
-  let instance1 = new Costume({costume_type:"ghost", size:'large', cost:15.4});
-  await instance1.save();
-  console.log("First object saved");
-  
-  // Add more instances as needed
-}
-
-if (process.env.RESEED) recreateDB();

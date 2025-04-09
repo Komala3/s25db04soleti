@@ -4,11 +4,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const mongoose = require('mongoose');
 const Drone = require('./models/drones');
+var drones = require("./models/drones");
 
 // MongoDB Connection Setup
-const connectionString = process.env.MONGO_CONNECTION_STRING;
+const connectionString = process.env.MONGO_CON;
 mongoose = require('mongoose');
 mongoose.connect(connectionString);
 
@@ -16,11 +16,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.on('connecting', () => console.log('Connecting to MongoDB...'));
 db.on('connected', () => console.log('MongoDB connected!'))
-
-//Get the default connection
-var db = mongoose.connection;
-
-//Bind connection to error event 
 
 db.once("open", function(){
 console.log("Connection to DB succeeded")});
@@ -66,6 +61,46 @@ async function seedDatabase() {
   }
 }
 
+// We can seed the collection if needed on server start
+async function recreateDB(){
+ // Delete everything
+ await drones.deleteMany();
+ let instance1 = new 
+drones({model:"Phantom 4", brand: "DJI", 
+range:6000});
+ instance1.save().then(doc=>{
+ console.log("First object saved")}
+).catch(err=>{
+  console.error(err)
+  });
+
+ let instance2 = new 
+drones({model:"Anafi", brand: "Parrot", 
+range:4000});
+ instance1.save().then(doc=>{
+ console.log("Second object saved")}
+).catch(err=>{
+  console.error(err)
+  });
+
+ let instance3 = new 
+drones({model:"Evo II", brand:"Autel", 
+model:9000});
+ instance1.save().then(doc=>{
+ console.log("Third object saved")}
+ ).catch(err=>{
+ console.error(err)
+ });
+}
+let reseed = true;
+if (reseed) recreateDB();
+
 
 module.exports = app;
-var drones = require("./models/drones");
+
+const drones_controlers= require('../controllers/drones');
+var router = express.Router();
+/* GET costumes */
+router.get('/', drones_controlers.drones_view_all_Page );
+module.exports = router;
+
