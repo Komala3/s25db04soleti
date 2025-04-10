@@ -1,21 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const drones_controllers = require('../controllers/drones');
 
-
-// Sample drone data (optional if not using a controller or database yet)
-const drones = [
-    { id: 1, model: 'DJI Phantom 4', range: 6000, brand: 'DJI' },
-    { id: 2, model: 'Parrot Anafi', range: 4000, brand: 'Parrot' },
-    { id: 3, model: 'Autel Evo II', range: 9000, brand: 'Autel' }
-];
-
-// Route to display all drones with hardcoded data
-router.get('/', function(req, res, next)  {
-    res.render('drones', { title: 'Search results - drones' });
-});
-
-// Route to display details of a single drone based on ID using hardcoded data
-
+// Route to display all drones
+router.get('/', drones_controllers.drones_view_all_Page);
 
 module.exports = router;
 

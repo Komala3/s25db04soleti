@@ -6,7 +6,7 @@ const droneSchema = mongoose.Schema({
   Range: Number
 });
 
-module.exports = mongoose.model("Drones", droneSchema);
+module.exports = mongoose.model("drones", droneSchema);
 
 
 

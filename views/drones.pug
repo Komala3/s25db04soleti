@@ -1,17 +1,7 @@
-extends layout
-
-block content
-  h1= title
-  - let items = results
-  p Below are some drones search results:
-  
-  .container-fluid
-    .row
-      each drones in items
-        .col-sm-3.border.p-2
-          h3 Model: #{drones.model}
-          p Brand: #{drones.brand}
-          p Range: #{drones.range}
-
-  p
-    a(href="/") Back to Home
+.container-fluid
+  .row
+    each d in results
+      .col-sm-3.border.p-2
+        h3 Model: #{d.model}
+        p Brand: #{d.brand}
+        p Range: #{d.range} meters
