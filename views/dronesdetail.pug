@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  - let dronesid = toShow._id
+  - let model = toShow.model
+  - let brand = toShow.brand
+  - let range = toShow.range
+  div
+    div.row
+      div(class='dronesAttr mr-3') drones ID is:
+      div #{dronesid}
+    div.row
+      div(class='dronesAttr mr-3') drones model is:
+      div #{model}
+    div.row
+      div(class='dronesAttr mr-3') drones brand is:
+      div #{brand}
+    div.row
+      div(class='dronesAttr mr-3') drones range is:
+      div #{range}

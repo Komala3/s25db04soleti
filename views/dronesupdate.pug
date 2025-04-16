@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  h1= title
+  - let dronesid = toShow._id
+  - let model = toShow.model
+  - let brand = toShow.brand
+  - let range = toShow.range
+
+  div.row(class='mb-2')
+    div.mr-1 ID is
+    div #{dronesid}
+  
+  - let actionid = "/resource/drones/" + dronesid
+  form(id='dronesForm', action= actionid, method="PUT")
+    div.form-group
+      label.dronesAttr(for='model') drones model
+      input#model(type='text', name='model', value= model )
+    div.form-group
+      label.dronesAttr(for='brand') drones brand
+      input#brand(type='text', name='brand', value= brand )
+    div.form-group
+      label.dronesAttr(for='range') drones range
+      input#range(type='number', name='range', value= range )
+    input(type="submit")
+  
+  script.
+    document.forms['dronesForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Update succeded")
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Update failed " + error )
+      });
+    });

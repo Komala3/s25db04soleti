@@ -6,3 +6,13 @@ body {
 a {
   color: #00B7FF;
 }
+
+.dronesAttr {
+  background-color: rgb(225, 255, 127);
+  width: 120px;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
