@@ -14,6 +14,10 @@ var pickRouter = require('./routes/pick');
 var resourceRouter = require('./routes/resource');
 var drones = require("./models/drones");
 
+//passport code
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 var app = express();
 
 // View engine setup
@@ -40,6 +44,46 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once("open", function () {
   console.log("Connection to DB succeeded");
 });
+
+//passport code
+var LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    Account.findOne({ username: username })
+      .then(function(user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!user.validPassword(password)) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      })
+      .catch(function(err) {
+        return done(err);
+      });
+  }
+));
+
+
+
+app.use(require('express-session')({
+  secret: 'keyboard cat',  // Secret to encrypt session cookie
+  resave: false,           // Don't save session if not modified
+  saveUninitialized: false // Don't create a session until something is stored
+}));
+app.use(passport.initialize());   // Initializes Passport
+app.use(passport.session());      // Handles the session for authentication
+
+// passport config
+// Use the existing connection
+// The Account model
+var Account =require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
 
 
 async function recreateDB(){
@@ -86,3 +130,5 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+

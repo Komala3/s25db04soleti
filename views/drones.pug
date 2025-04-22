@@ -1,7 +1,27 @@
-.container-fluid
-  .row
-    each d in results
-      .col-sm-3.border.p-2
-        h3 Model: #{d.model}
-        p Brand: #{d.brand}
-        p Range: #{d.range} meters
+extends layout
+
+block content
+  h1= title
+  - let items = results;
+
+  // ✅ Part 6: Add "Create New Drone" button at the top
+  a(href='/drones/create')
+    button.btn.btn-success.mb-3 Create New Drone
+
+  .container-fluid
+    .row
+      each d in items
+        .col-sm-3.border.p-2
+          h3 Model: #{d.model}
+          p Brand: #{d.brand}
+          p Range: #{d.range || "Range not specified"}
+
+          // ✅ All 3 buttons under each drone
+          button.btn.btn-primary.mt-2.ml-1(onclick=`dispatch("/drones/update?id=${d._id}")`) Update
+          button.btn.btn-info.mt-2.ml-1(onclick=`dispatch("/drones/detail?id=${d._id}")`) Details
+          button.btn.btn-danger.mt-2.ml-1(onclick=`dispatch("/drones/delete?id=${d._id}")`) Delete
+
+  script.
+    function dispatch(path) {
+      window.location.href = path
+    }
